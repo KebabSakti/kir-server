@@ -1,0 +1,112 @@
+generator client {
+  provider        = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model admin {
+  id       Int       @id @default(autoincrement())
+  email    String    @db.Text
+  password String    @db.Text
+  created  DateTime? @db.Timestamp(0)
+  updated  DateTime? @db.Timestamp(0)
+
+  @@index([email(length: 768)], map: "email")
+  @@index([password(length: 768)], map: "password")
+}
+
+model kir {
+  id                 Int       @id @default(autoincrement())
+  certificateNumber  String?   @db.Text
+  director           String?   @db.Text
+  directorLevel      String?   @db.Text
+  directorNip        String?   @db.Text
+  directorStamp      String?   @db.Text
+  directorSignature  String?   @db.Text
+  owner              String?   @db.Text
+  address            String?   @db.Text
+  cardNumber         String?   @db.Text
+  rfid               String?   @db.Text
+  registrationDate   String?   @db.Text
+  registrationNumber String?   @db.Text
+  chasisNumber       String?   @db.Text
+  engineNumber       String?   @db.Text
+  inspectionNumber   String?   @db.Text
+  frontPic           String?   @db.Text
+  backPic            String?   @db.Text
+  rightPic           String?   @db.Text
+  leftPic            String?   @db.Text
+  vehicleType        String?   @db.Text
+  vehicleBrand       String?   @db.Text
+  yearManufacture    String?   @db.Text
+  fuel               String?   @db.Text
+  engineCapacity     String?   @db.Text
+  enginePower        String?   @db.Text
+  tyreSize           String?   @db.Text
+  axleConfiguration  String?   @db.Text
+  curbWeight         String?   @db.Text
+  length             String?   @db.Text
+  width              String?   @db.Text
+  height             String?   @db.Text
+  front              String?   @db.Text
+  back               String?   @db.Text
+  sumbu1             String?   @db.Text
+  sumbu2             String?   @db.Text
+  sumbu3             String?   @db.Text
+  dimension          String?   @db.Text
+  jbbJbkb            String?   @db.Text
+  jbiJbki            String?   @db.Text
+  payload            String?   @db.Text
+  classPermit        String?   @db.Text
+  mst                String?   @db.Text
+  brake1             String?   @db.Text
+  brake2             String?   @db.Text
+  brake3             String?   @db.Text
+  brake4             String?   @db.Text
+  brake5             String?   @db.Text
+  headLamp1          String?   @db.Text
+  headLamp2          String?   @db.Text
+  headLamp3          String?   @db.Text
+  headLamp4          String?   @db.Text
+  coEmision          String?   @db.Text
+  hcEmision          String?   @db.Text
+  smokeDensity       String?   @db.Text
+  inspectionResult   String?   @db.Text
+  inspector          String?   @db.Text
+  inspectorLevel     String?   @db.Text
+  inspectorNumber    String?   @db.Text
+  inspectorStamp     String?   @db.Text
+  inspectorSignature String?   @db.Text
+  inspectionUnit     String?   @db.Text
+  region             String?   @db.Text
+  origin             String?   @db.Text
+  agency             String?   @db.Text
+  agencyLevel        String?   @db.Text
+  agencyNumber       String?   @db.Text
+  agencyStamp        String?   @db.Text
+  agencySignature    String?   @db.Text
+  qr                 String?   @db.Text
+  expiryDate         DateTime? @db.Timestamp(0)
+  created            DateTime? @db.Timestamp(0)
+  updated            DateTime? @db.Timestamp(0)
+  deleted            DateTime? @db.Timestamp(0)
+
+  @@index([certificateNumber(length: 768)], map: "certificateNumber")
+}
+
+model pdf {
+  id        Int       @id @default(autoincrement())
+  name      String?   @db.Text
+  level     String?   @db.Text
+  number    String?   @db.Text
+  stamp     String?   @db.Text
+  signature String?   @db.Text
+  created   DateTime? @db.Timestamp(0)
+  updated   DateTime? @db.Timestamp(0)
+  deleted   DateTime? @db.Timestamp(0)
+
+  @@index([name(length: 768)], map: "name")
+}
