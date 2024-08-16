@@ -40,6 +40,7 @@ export class InternalFailure extends Error {
 
 export function Failure(error: Error, res: Response): void {
   console.log(error);
+
   let code = 500;
 
   if (error instanceof Unauthorized) {
@@ -54,11 +55,5 @@ export function Failure(error: Error, res: Response): void {
     code = 404;
   }
 
-  res
-    .status(code)
-    .json(
-      code == 500
-        ? "Terjadi kesalahan internal, harap coba beberapa saat lagi"
-        : error.message
-    );
+  res.status(code).json(error.message);
 }

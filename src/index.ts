@@ -233,6 +233,8 @@ app.use("/pdf", async (req, res) => {
           align: "center",
         });
 
+      pdf.image(logo, 278, 11, { width: 40 });
+
       pdf.image(stamp, 269, 133, { width: 57 }); //DIREKTUR
       pdf.image(signature, 306, 154, { width: 30 });
 
@@ -288,7 +290,7 @@ app.use("/pdf", async (req, res) => {
         .fontSize(6)
         .font("Serif-Bold")
         .text("Nomor dan tanggal sertifikat registrasi uji tipe", 317, 230, {
-          width: 110,
+          width: 100,
         })
         .fontSize(6)
         .font("Serif-Italic")
