@@ -5,62 +5,8 @@ import QRCode from "qrcode";
 import { pub } from "../../common/config";
 import { Failure, NotFound } from "../../common/error";
 import { kirApi } from "../../feature/loader";
-import { upload } from "../../helper/multer";
 
-export async function list(req: Request, res: Response) {
-  try {
-    const data = await kirApi.list(req.query);
-
-    return res.json(data);
-  } catch (error: any) {
-    return Failure(error, res);
-  }
-}
-
-export async function create(req: Request, res: Response) {
-  try {
-    upload(req, res, async (uploadedFiles) => {
-      req.body.frontPic = uploadedFiles[0];
-      req.body.backPic = uploadedFiles[1];
-      req.body.rightPic = uploadedFiles[2];
-      req.body.leftPic = uploadedFiles[3];
-
-      await kirApi.create(req.body);
-
-      return res.end();
-    });
-  } catch (error: any) {
-    return Failure(error, res);
-  }
-}
-
-export async function read(req: Request, res: Response) {
-  try {
-    const data = await kirApi.read(req.params.id);
-
-    return res.json(data);
-  } catch (error: any) {
-    return Failure(error, res);
-  }
-}
-
-export async function update(req: Request, res: Response) {
-  try {
-    //
-  } catch (error: any) {
-    return Failure(error, res);
-  }
-}
-
-export async function remove(req: Request, res: Response) {
-  try {
-    //
-  } catch (error: any) {
-    return Failure(error, res);
-  }
-}
-
-export async function certificate(req: Request, res: Response) {
+export async function print(req: Request, res: Response) {
   try {
     const data = await kirApi.find(req.params.certificate);
 

@@ -55,5 +55,7 @@ export function Failure(error: Error, res: Response): void {
     code = 404;
   }
 
-  res.status(code).json(error.message);
+  res
+    .status(code)
+    .json(code != 500 ? error.message : "Terjadi kesalahan internal");
 }

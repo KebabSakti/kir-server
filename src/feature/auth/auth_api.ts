@@ -11,9 +11,14 @@ export type AuthValidateParam = {
   hash: string;
 };
 
+export type AuthLoginParam = {
+  email: string;
+  password: string;
+};
+
 export abstract class AuthApi {
-  abstract update(param: AuthAccountUpdateParam): Promise<void>;
-  abstract validate(param: AuthValidateParam): Promise<boolean>;
-  abstract find(email: string): Promise<Admin | undefined>;
+  abstract update(param: AuthAccountUpdateParam): Promise<void>; 
+  abstract login(param: AuthLoginParam): Promise<string | undefined>;
+  abstract check(token: string): Promise<boolean>;
   abstract emailResetLink(email: string): Promise<void>;
 }

@@ -3,7 +3,7 @@ export interface Kir {
   certificateNumber?: string;
   director?: string;
   directorLevel?: string;
-  directorNip?: string;
+  directorNumber?: string;
   directorStamp?: string;
   directorSignature?: string;
   owner?: string;
@@ -15,10 +15,10 @@ export interface Kir {
   chasisNumber?: string;
   engineNumber?: string;
   inspectionNumber?: string;
-  frontPic?: string | File;
-  backPic?: string | File;
-  rightPic?: string | File;
-  leftPic?: string | File;
+  frontPic?: string;
+  backPic?: string;
+  rightPic?: string;
+  leftPic?: string;
   vehicleType?: string;
   vehicleBrand?: string;
   yearManufacture?: string;

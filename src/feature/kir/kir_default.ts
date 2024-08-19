@@ -1,4 +1,6 @@
+import dayjs from "dayjs";
 import { prisma } from "../../common/prisma";
+import { randomNumber } from "../../common/utility";
 import { Kir } from "./kir";
 import {
   KirApi,
@@ -9,8 +11,15 @@ import {
 
 export class KirDefault implements KirApi {
   async create(param: KirCreateParam): Promise<void> {
+    const certificate = randomNumber();
+    const expiryDate = dayjs().add(6, "month").toDate();
+
     await prisma.kir.create({
-      data: param,
+      data: {
+        ...param,
+        certificateNumber: certificate.toString(),
+        expiryDate: expiryDate,
+      },
     });
   }
 
@@ -31,17 +40,45 @@ export class KirDefault implements KirApi {
   }
 
   async list(param?: KirListParam): Promise<Kir[]> {
-    const data: any = await prisma.kir.findMany({
-      ...(param?.pagination as any),
+    let filter: any = {
       where: {
-        certificateNumber: { contains: param?.certificateNumber },
+        deleted: null,
+      },
+    };
+
+    if (param?.pagination != undefined) {
+      const paginate = {
+        skip: Number(param.pagination.skip),
+        take: Number(param.pagination.take),
+      };
+
+      filter = { ...filter, ...paginate };
+    }
+
+    if (param?.certificateNumber != undefined) {
+      filter["where"] = {
+        ...filter.where,
+        certificateNumber: {
+          contains: param?.certificateNumber,
+        },
+      };
+    }
+
+    const data: any = await prisma.kir.findMany({
+      ...filter,
+      orderBy: {
+        created: "desc",
       },
     });
 
     return data;
   }
 
-  async print(certificateNumber: string): Promise<void> {
-    throw new Error("Method not implemented.");
+  async find(certificateNumber: string): Promise<Kir | undefined> {
+    const data: any = await prisma.kir.findFirst({
+      where: { certificateNumber: certificateNumber },
+    });
+
+    return data;
   }
 }

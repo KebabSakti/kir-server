@@ -1,9 +1,8 @@
-import jwt from "jsonwebtoken";
-import { Request, Response, NextFunction } from "express";
-import { jwtKey } from "../common/config";
+import { NextFunction, Request, Response } from "express";
 import { Failure, Unauthorized } from "../common/error";
+import { authApi } from "../feature/loader";
 
-export function isAdmin(req: Request, res: Response, next: NextFunction) {
+export async function isAdmin(req: Request, res: Response, next: NextFunction) {
   try {
     const authorization = req.headers.authorization;
 
@@ -12,16 +11,15 @@ export function isAdmin(req: Request, res: Response, next: NextFunction) {
 
       if (payloads.length == 2) {
         const token = payloads[1];
-        const auth = req.app.locals.auth;
-        const decoded: any = jwt.verify(token, jwtKey);
+        const tokenIsValid = await authApi.check(token);
 
-        if (decoded?.email == auth?.email) {
+        if (tokenIsValid) {
           return next();
         }
       }
     }
 
-    throw new Unauthorized();
+    throw new Unauthorized("Akses tidak dizinkan");
   } catch (error: any) {
     return Failure(error, res);
   }

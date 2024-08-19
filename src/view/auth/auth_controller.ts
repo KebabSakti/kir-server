@@ -1,31 +1,32 @@
 import { Request, Response } from "express";
-import jwt from "jsonwebtoken";
+import { Failure, Unauthorized } from "../../common/error";
 import { authApi } from "../../feature/loader";
 import { authLoginSchema } from "./auth_schema";
-import { jwtKey } from "../../common/config";
-import { Failure, Unauthorized } from "../../common/error";
 
 export async function login(req: Request, res: Response) {
   try {
     await authLoginSchema.validate(req.body);
-    const { email, password } = req.body;
-    const admin = await authApi.find(email);
+    const token = await authApi.login(req.body);
 
-    if (admin != undefined) {
-      const userIsValid = await authApi.validate({
-        password: password,
-        hash: admin.password!,
-      });
-
-      if (userIsValid) {
-        const token = jwt.sign({ email: admin.email }, jwtKey);
-        req.app.locals.auth = { email: admin.email };
-
-        return res.json({ token: token });
-      }
+    if (token != undefined) {
+      return res.json({ token: token });
     }
 
     throw new Unauthorized();
+  } catch (error: any) {
+    return Failure(error, res);
+  }
+}
+
+export async function update(req: Request, res: Response) {
+  //
+}
+
+export async function emailResetLink(req: Request, res: Response) {
+  try {
+    await authApi.emailResetLink(req.body.email);
+
+    return res.end();
   } catch (error: any) {
     return Failure(error, res);
   }

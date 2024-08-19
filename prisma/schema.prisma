@@ -1,5 +1,5 @@
 generator client {
-  provider        = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -8,11 +8,11 @@ datasource db {
 }
 
 model admin {
-  id       Int       @id @default(autoincrement())
-  email    String    @db.Text
-  password String    @db.Text
-  created  DateTime? @db.Timestamp(0)
-  updated  DateTime? @db.Timestamp(0)
+  id       Int      @id @default(autoincrement())
+  email    String   @db.Text
+  password String   @db.Text
+  created  DateTime @default(now())
+  updated  DateTime @default(now())
 
   @@index([email(length: 768)], map: "email")
   @@index([password(length: 768)], map: "password")
@@ -23,9 +23,9 @@ model kir {
   certificateNumber  String?   @db.Text
   director           String?   @db.Text
   directorLevel      String?   @db.Text
-  directorNip        String?   @db.Text
   directorStamp      String?   @db.Text
   directorSignature  String?   @db.Text
+  directorNumber     String?   @db.Text
   owner              String?   @db.Text
   address            String?   @db.Text
   cardNumber         String?   @db.Text
@@ -89,10 +89,10 @@ model kir {
   agencyStamp        String?   @db.Text
   agencySignature    String?   @db.Text
   qr                 String?   @db.Text
-  expiryDate         DateTime? @db.Timestamp(0)
-  created            DateTime? @db.Timestamp(0)
-  updated            DateTime? @db.Timestamp(0)
-  deleted            DateTime? @db.Timestamp(0)
+  expiryDate         DateTime?
+  created            DateTime  @default(now())
+  updated            DateTime  @default(now())
+  deleted            DateTime?
 
   @@index([certificateNumber(length: 768)], map: "certificateNumber")
 }
@@ -104,9 +104,9 @@ model pdf {
   number    String?   @db.Text
   stamp     String?   @db.Text
   signature String?   @db.Text
-  created   DateTime? @db.Timestamp(0)
-  updated   DateTime? @db.Timestamp(0)
-  deleted   DateTime? @db.Timestamp(0)
+  created   DateTime  @default(now())
+  updated   DateTime  @default(now())
+  deleted   DateTime?
 
   @@index([name(length: 768)], map: "name")
 }
