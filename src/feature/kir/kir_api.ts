@@ -74,7 +74,7 @@ export type KirCreateParam = {
 };
 
 export type KirUpdateParam = {
-  id: number;
+  id: string;
   certificateNumber?: string;
   director?: string;
   directorLevel?: string;

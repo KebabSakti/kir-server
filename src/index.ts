@@ -6,6 +6,7 @@ import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import express from "express";
 import http from "http";
+import multer from "multer";
 import nodemailer from "nodemailer";
 import { staticDir } from "./common/config";
 import authRoute from "./view/auth/auth_route";
@@ -21,10 +22,14 @@ const app = express();
 const server = http.createServer(app);
 const port = 3000;
 
+const storage = multer.memoryStorage();
+const multerInstance = multer({ storage });
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(staticDir));
+app.use(multerInstance.any());
 
 // PUBLIC API
 app.use("/", authRoute);

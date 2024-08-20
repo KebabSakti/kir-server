@@ -8,7 +8,7 @@ datasource db {
 }
 
 model admin {
-  id       Int      @id @default(autoincrement())
+  id       String   @id @default(uuid())
   email    String   @db.Text
   password String   @db.Text
   created  DateTime @default(now())
@@ -19,7 +19,7 @@ model admin {
 }
 
 model kir {
-  id                 Int       @id @default(autoincrement())
+  id                 String    @id @default(uuid())
   certificateNumber  String?   @db.Text
   director           String?   @db.Text
   directorLevel      String?   @db.Text
@@ -98,7 +98,7 @@ model kir {
 }
 
 model pdf {
-  id        Int       @id @default(autoincrement())
+  id        String    @id @default(uuid())
   name      String?   @db.Text
   level     String?   @db.Text
   number    String?   @db.Text

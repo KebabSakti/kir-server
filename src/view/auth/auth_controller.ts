@@ -19,7 +19,13 @@ export async function login(req: Request, res: Response) {
 }
 
 export async function update(req: Request, res: Response) {
-  //
+  try {
+    await authApi.update(req.body);
+
+    return res.end();
+  } catch (error: any) {
+    return Failure(error, res);
+  }
 }
 
 export async function emailResetLink(req: Request, res: Response) {

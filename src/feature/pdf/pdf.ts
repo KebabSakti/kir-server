@@ -1,5 +1,5 @@
 export interface Pdf {
-  id?: number;
+  id?: string;
   name?: string;
   level?: string;
   number?: string;

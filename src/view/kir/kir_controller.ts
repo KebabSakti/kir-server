@@ -5,7 +5,7 @@ import QRCode from "qrcode";
 import { pub } from "../../common/config";
 import { Failure, NotFound } from "../../common/error";
 import { kirApi } from "../../feature/loader";
-import { upload } from "../../helper/multer";
+import { uploadImage } from "../../helper/uploader";
 
 export async function list(req: Request, res: Response) {
   try {
@@ -19,16 +19,15 @@ export async function list(req: Request, res: Response) {
 
 export async function create(req: Request, res: Response) {
   try {
-    upload(req, res, async (uploadedFiles) => {
-      req.body.frontPic = uploadedFiles[0];
-      req.body.backPic = uploadedFiles[1];
-      req.body.rightPic = uploadedFiles[2];
-      req.body.leftPic = uploadedFiles[3];
+    const uploadedFiles = await uploadImage(req.files as any);
 
-      await kirApi.create(req.body);
-
-      return res.end();
+    uploadedFiles.forEach((file) => {
+      req.body[file.fieldName] = file.fileName;
     });
+
+    await kirApi.create(req.body);
+
+    return res.end();
   } catch (error: any) {
     return Failure(error, res);
   }
@@ -46,7 +45,17 @@ export async function read(req: Request, res: Response) {
 
 export async function update(req: Request, res: Response) {
   try {
-    //
+    if (req.files != undefined) {
+      const uploadedFiles = await uploadImage(req.files as any);
+
+      uploadedFiles.forEach((file) => {
+        req.body[file.fieldName] = file.fileName;
+      });
+    }
+
+    await kirApi.update(req.body);
+
+    return res.end();
   } catch (error: any) {
     return Failure(error, res);
   }
@@ -54,7 +63,9 @@ export async function update(req: Request, res: Response) {
 
 export async function remove(req: Request, res: Response) {
   try {
-    //
+    await kirApi.remove(req.body.id);
+
+    return res.end();
   } catch (error: any) {
     return Failure(error, res);
   }

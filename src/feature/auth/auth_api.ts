@@ -1,6 +1,6 @@
-import { Admin } from "./admin";
 
 export type AuthAccountUpdateParam = {
+  id: string;
   email: string;
   oldPassword: string;
   newPassword: string;
@@ -17,7 +17,7 @@ export type AuthLoginParam = {
 };
 
 export abstract class AuthApi {
-  abstract update(param: AuthAccountUpdateParam): Promise<void>; 
+  abstract update(param: AuthAccountUpdateParam): Promise<void>;
   abstract login(param: AuthLoginParam): Promise<string | undefined>;
   abstract check(token: string): Promise<boolean>;
   abstract emailResetLink(email: string): Promise<void>;

@@ -5,6 +5,7 @@ import QRCode from "qrcode";
 import { pub } from "../../common/config";
 import { Failure, NotFound } from "../../common/error";
 import { kirApi } from "../../feature/loader";
+import dayjs from "dayjs";
 
 export async function print(req: Request, res: Response) {
   try {
@@ -294,12 +295,8 @@ export async function print(req: Request, res: Response) {
           .font("Serif-Italic")
           .text("Owner's address");
 
-        pdf.fontSize(6).font("Serif-Bold").text(": PT TRANSKON JAYA", 97, 234);
-
-        pdf
-          .fontSize(6)
-          .font("Serif-Bold")
-          .text(": JL. MULAWARMAN NO.21 KOTA BALIKPAPAN", 97, 254);
+        pdf.fontSize(6).font("Serif-Bold").text(`: ${data.owner}`, 97, 234);
+        pdf.fontSize(6).font("Serif-Bold").text(`: ${data.address}`, 97, 254);
 
         pdf
           .fontSize(8)
@@ -356,14 +353,30 @@ export async function print(req: Request, res: Response) {
           .font("Serif-Italic")
           .text("Vehicle inspection number");
 
-        pdf.fontSize(6).font("Serif-Bold").text(": 01 JAN 2010", 459, 242);
-        pdf.fontSize(6).font("Serif-Bold").text(": KT 8140 YP", 459, 270);
         pdf
           .fontSize(6)
           .font("Serif-Bold")
-          .text(": MMBJJKL10KH059128", 459, 290, { lineBreak: false });
-        pdf.fontSize(6).font("Serif-Bold").text(": 4N15UGH8935", 459, 310);
-        pdf.fontSize(6).font("Serif-Bold").text(": CD71C20005745", 459, 330);
+          .text(`: ${dayjs(data.created).format("DD MMM YYYY")}`, 459, 242);
+
+        pdf
+          .fontSize(6)
+          .font("Serif-Bold")
+          .text(`: ${data.registrationNumber}`, 459, 270);
+
+        pdf
+          .fontSize(6)
+          .font("Serif-Bold")
+          .text(`: ${data.chasisNumber}`, 459, 290, { lineBreak: false });
+
+        pdf
+          .fontSize(6)
+          .font("Serif-Bold")
+          .text(`: ${data.engineNumber}`, 459, 310);
+
+        pdf
+          .fontSize(6)
+          .font("Serif-Bold")
+          .text(`: ${data.inspectionNumber}`, 459, 330);
 
         pdf
           .fontSize(6)
@@ -586,36 +599,57 @@ export async function print(req: Request, res: Response) {
         pdf
           .fontSize(6)
           .font("Serif-Bold")
-          .text(": MOBIL BARANG BAK TERBUKA", 153, 478);
+          .text(`: ${data.vehicleType}`, 153, 478);
 
         pdf
           .fontSize(6)
           .font("Serif-Bold")
-          .text(": MITSUBISHI / TRITON 2.5", 153, 496);
+          .text(`: ${data.vehicleBrand}`, 153, 496);
 
-        pdf.fontSize(6).font("Serif-Bold").text(": 2019", 153, 512);
-        pdf.fontSize(6).font("Serif-Bold").text(": SOLAR", 153, 532);
-        pdf.fontSize(6).font("Serif-Bold").text(": 2,477 cc", 153, 550);
-        pdf.fontSize(6).font("Serif-Bold").text(": 89 KW/PS/HP", 153, 568);
-        pdf.fontSize(6).font("Serif-Bold").text(": 265/60 R18", 153, 586);
-        pdf.fontSize(6).font("Serif-Bold").text(": 1.1", 153, 604);
-        pdf.fontSize(6).font("Serif-Bold").text(": 1850 kg", 153, 622);
+        pdf
+          .fontSize(6)
+          .font("Serif-Bold")
+          .text(`: ${data.yearManufacture}`, 153, 512);
+        pdf.fontSize(6).font("Serif-Bold").text(`: ${data.fuel}`, 153, 532);
+        pdf
+          .fontSize(6)
+          .font("Serif-Bold")
+          .text(`: ${data.engineCapacity}`, 153, 550);
+        pdf
+          .fontSize(6)
+          .font("Serif-Bold")
+          .text(`: ${data.enginePower}`, 153, 568);
+        pdf.fontSize(6).font("Serif-Bold").text(`: ${data.tyreSize}`, 153, 586);
+        pdf
+          .fontSize(6)
+          .font("Serif-Bold")
+          .text(`: ${data.axleConfiguration}`, 153, 604);
+        pdf
+          .fontSize(6)
+          .font("Serif-Bold")
+          .text(`: ${data.curbWeight}`, 153, 622);
 
-        pdf.fontSize(6).font("Serif-Bold").text(": 5,200 mm", 67, 650);
-        pdf.fontSize(6).font("Serif-Bold").text(": 1,800 mm", 67, 668);
-        pdf.fontSize(6).font("Serif-Bold").text(": 1,800 mm", 67, 686);
-        pdf.fontSize(6).font("Serif-Bold").text(": 1,800 mm", 202, 650);
-        pdf.fontSize(6).font("Serif-Bold").text(": 1,800 mm", 202, 668);
+        pdf.fontSize(6).font("Serif-Bold").text(`: ${data.length}`, 67, 650);
+        pdf.fontSize(6).font("Serif-Bold").text(`: ${data.width}`, 67, 668);
+        pdf.fontSize(6).font("Serif-Bold").text(`: ${data.height}`, 67, 686);
+        pdf.fontSize(6).font("Serif-Bold").text(`: ${data.front}`, 202, 650);
+        pdf.fontSize(6).font("Serif-Bold").text(`: ${data.back}`, 202, 668);
 
-        pdf.fontSize(6).font("Serif-Bold").text(": 1,800 mm", 153, 710);
-        pdf.fontSize(6).font("Serif-Bold").text(": 1,800 mm", 153, 720);
-        pdf.fontSize(6).font("Serif-Bold").text(": 1,800 mm", 153, 730);
-        pdf.fontSize(6).font("Serif-Bold").text(": 1,800 mm", 153, 740);
+        pdf.fontSize(6).font("Serif-Bold").text(`: ${data.sumbu1}`, 153, 710);
+        pdf.fontSize(6).font("Serif-Bold").text(`: ${data.sumbu2}`, 153, 720);
+        pdf.fontSize(6).font("Serif-Bold").text(`: ${data.sumbu3}`, 153, 730);
+        pdf
+          .fontSize(6)
+          .font("Serif-Bold")
+          .text(`: ${data.dimension}`, 153, 740);
 
-        pdf.fontSize(6).font("Serif-Bold").text(": 1,800 mm", 91, 764);
-        pdf.fontSize(6).font("Serif-Bold").text(": 1,800 mm", 202, 764);
-        pdf.fontSize(6).font("Serif-Bold").text(": 5 orang / 700 kg", 153, 782);
-        pdf.fontSize(6).font("Serif-Bold").text(": III", 153, 800);
+        pdf.fontSize(6).font("Serif-Bold").text(`: ${data.jbbJbkb}`, 91, 764);
+        pdf.fontSize(6).font("Serif-Bold").text(`: ${data.jbiJbki}`, 202, 764);
+        pdf.fontSize(6).font("Serif-Bold").text(`: ${data.payload}`, 153, 782);
+        pdf
+          .fontSize(6)
+          .font("Serif-Bold")
+          .text(`: ${data.classPermit}`, 153, 800);
 
         pdf
           .fontSize(6)
@@ -709,7 +743,7 @@ export async function print(req: Request, res: Response) {
           .fontSize(6)
           .font("Serif-Bold")
           .text(
-            "UNIT PELAKSANA TEKNIS DAERAH PENGUJIAN DINAS PERHUBUNGAN KOTA TAKRAKAN",
+            "UNIT PELAKSANA TEKNIS DAERAH PENGUJIAN DINAS PERHUBUNGAN KOTA TARAKAN",
             317,
             793,
             { width: 140 }
@@ -774,27 +808,36 @@ export async function print(req: Request, res: Response) {
           .font("Serif-Italic")
           .text("Opasitas : 27.0% HSU", 414, 617, { width: 95 });
 
-        pdf.fontSize(6).font("Serif-Bold").text(": 1,362 kg", 528, 480);
+        pdf.fontSize(6).font("Serif-Bold").text(`: ${data.brake1}`, 528, 480);
         pdf.fontSize(6).font("Serif-Bold").text("I", 528, 501);
         pdf.fontSize(6).font("Serif-Bold").text("II", 528, 509);
         pdf.fontSize(6).font("Serif-Bold").text("III", 528, 517);
         pdf.fontSize(6).font("Serif-Bold").text("IV", 528, 525);
-        pdf.fontSize(6).font("Serif-Bold").text("3%", 541, 501);
-        pdf.fontSize(6).font("Serif-Bold").text("3%", 541, 509);
-        pdf.fontSize(6).font("Serif-Bold").text("3%", 541, 517);
-        pdf.fontSize(6).font("Serif-Bold").text("3%", 541, 525);
-        pdf.fontSize(6).font("Serif-Bold").text(": 1,362 kg", 528, 541);
-        pdf.fontSize(6).font("Serif-Bold").text(": 1,362 kg", 528, 561);
-        pdf.fontSize(6).font("Serif-Bold").text(": 1,362 kg", 528, 581);
+        pdf.fontSize(6).font("Serif-Bold").text(`: ${data.brake2}`, 541, 501);
+        pdf.fontSize(6).font("Serif-Bold").text(`: ${data.brake3}`, 541, 509);
+        pdf.fontSize(6).font("Serif-Bold").text(`: ${data.brake4}`, 541, 517);
+        pdf.fontSize(6).font("Serif-Bold").text(`: ${data.brake5}`, 541, 525);
         pdf
           .fontSize(6)
           .font("Serif-Bold")
-          .text(": LULUS UJI BERKALA", 414, 637);
+          .text(`: ${data.headLamp1}`, 528, 541);
+        pdf
+          .fontSize(6)
+          .font("Serif-Bold")
+          .text(`: ${data.headLamp2}`, 528, 561);
+        pdf
+          .fontSize(6)
+          .font("Serif-Bold")
+          .text(`: ${data.headLamp3}`, 528, 581);
+        pdf
+          .fontSize(6)
+          .font("Serif-Bold")
+          .text(`: ${data.inspectionResult}`, 414, 637);
         pdf.fontSize(6).font("Serif-Bold").text(": 12 JUL 2024", 414, 665);
         pdf
           .fontSize(6)
           .font("Serif-Bold")
-          .text(": TRI ADWIN CAHYONO,A.Ma.PKB", 414, 697);
+          .text(`: ${data.inspector}`, 414, 697);
         pdf.fontSize(6).font("Serif-Bold").text(":", 414, 725);
 
         pdf.end();

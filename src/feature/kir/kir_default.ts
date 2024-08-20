@@ -25,18 +25,23 @@ export class KirDefault implements KirApi {
 
   async read(id: string): Promise<Kir | undefined> {
     const data: any = await prisma.kir.findUnique({
-      where: { id: Number(id) },
+      where: { id: id },
     });
 
     return data;
   }
 
   async update(param: KirUpdateParam): Promise<void> {
-    throw new Error("Method not implemented.");
+    await prisma.kir.update({
+      where: {
+        id: param.id,
+      },
+      data: { ...param, updated: dayjs().toDate(), deleted: null },
+    });
   }
 
   async remove(id: string): Promise<void> {
-    throw new Error("Method not implemented.");
+    await prisma.kir.delete({ where: { id: id } });
   }
 
   async list(param?: KirListParam): Promise<Kir[]> {

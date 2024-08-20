@@ -9,7 +9,7 @@ export type PdfCreateParam = {
 };
 
 export type PdfUpdateParam = {
-  id?: number;
+  id?: string;
   name?: string;
   level?: string;
   number?: string;
@@ -20,7 +20,7 @@ export type PdfUpdateParam = {
 export abstract class PdfApi {
   abstract list(): Promise<Pdf[]>;
   abstract create(param: PdfCreateParam): Promise<void>;
-  abstract read(id: number): Promise<Pdf | undefined>;
+  abstract read(id: string): Promise<Pdf | undefined>;
   abstract update(param: PdfUpdateParam): Promise<void>;
-  abstract remove(id: number): Promise<void>;
+  abstract remove(id: string): Promise<void>;
 }

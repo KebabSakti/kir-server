@@ -3,10 +3,42 @@ import jwt from "jsonwebtoken";
 import { prisma } from "../../common/prisma";
 import { AuthAccountUpdateParam, AuthApi, AuthLoginParam } from "./auth_api";
 import { MailerSend, Sender, Recipient, EmailParams } from "mailersend";
+import dayjs from "dayjs";
+import { BadRequest, NotFound } from "../../common/error";
 
 export class AuthDefault implements AuthApi {
   async update(param: AuthAccountUpdateParam): Promise<void> {
-    throw new Error("Method not implemented.");
+    const admin = await prisma.admin.findUnique({
+      where: {
+        id: param.id,
+      },
+    });
+
+    if (admin == null) {
+      throw new NotFound("User tidak ditemukan");
+    }
+
+    const passwordIsValid = await bcrypt.compare(
+      param.oldPassword,
+      admin.password
+    );
+
+    if (!passwordIsValid) {
+      throw new BadRequest("Password lama anda salah");
+    }
+
+    const hashedPass = bcrypt.hashSync(param.newPassword, 10);
+
+    await prisma.admin.update({
+      where: {
+        id: param.id,
+      },
+      data: {
+        email: param.email,
+        password: hashedPass,
+        updated: dayjs().toDate(),
+      },
+    });
   }
 
   async login(param: AuthLoginParam): Promise<string | undefined> {

@@ -6,6 +6,9 @@ export class PdfDefault implements PdfApi {
   async list(): Promise<Pdf[]> {
     const result = await prisma.pdf.findMany({
       where: { deleted: null },
+      orderBy: {
+        created: "desc",
+      },
     });
 
     const data = result as Pdf[];
@@ -19,7 +22,7 @@ export class PdfDefault implements PdfApi {
     });
   }
 
-  async read(id: number): Promise<Pdf | undefined> {
+  async read(id: string): Promise<Pdf | undefined> {
     const result = await prisma.pdf.findUnique({
       where: { id: id },
     });
@@ -36,7 +39,7 @@ export class PdfDefault implements PdfApi {
     });
   }
 
-  async remove(id: number): Promise<void> {
+  async remove(id: string): Promise<void> {
     await prisma.pdf.delete({
       where: { id: id },
     });
