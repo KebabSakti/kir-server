@@ -41,7 +41,17 @@ export async function read(req: Request, res: Response) {
 
 export async function update(req: Request, res: Response) {
   try {
-    //
+    if (req.files != undefined) {
+      const uploadedFiles = await uploadImage(req.files as any, "png");
+
+      uploadedFiles.forEach((file) => {
+        req.body[file.fieldName] = file.fileName;
+      });
+    }
+
+    await pdfApi.update(req.body);
+
+    return res.end();
   } catch (error: any) {
     return Failure(error, res);
   }
@@ -49,7 +59,9 @@ export async function update(req: Request, res: Response) {
 
 export async function remove(req: Request, res: Response) {
   try {
-    //
+    await pdfApi.remove(req.body.id);
+
+    return res.end();
   } catch (error: any) {
     return Failure(error, res);
   }

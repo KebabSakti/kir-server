@@ -6,7 +6,7 @@ const router = express.Router();
 router.get("/", pdf.list);
 router.get("/:id/read", pdf.read);
 router.post("/", pdf.create);
-router.patch("/", pdf.update);
+router.put("/", pdf.update);
 router.delete("/", pdf.remove);
 
 export default router;

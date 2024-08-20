@@ -41,7 +41,10 @@ export class KirDefault implements KirApi {
   }
 
   async remove(id: string): Promise<void> {
-    await prisma.kir.delete({ where: { id: id } });
+    await prisma.kir.update({
+      where: { id: id },
+      data: { deleted: dayjs().toDate() },
+    });
   }
 
   async list(param?: KirListParam): Promise<Kir[]> {

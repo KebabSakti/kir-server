@@ -20,7 +20,15 @@ export async function login(req: Request, res: Response) {
 
 export async function update(req: Request, res: Response) {
   try {
-    await authApi.update(req.body);
+    const auth = res.locals.auth;
+
+    const payload = {
+      ...auth,
+      oldPassword: req.body.oldPassword,
+      newPassword: req.body.newPassword,
+    };
+
+    await authApi.update(payload);
 
     return res.end();
   } catch (error: any) {

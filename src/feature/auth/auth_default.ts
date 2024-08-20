@@ -1,16 +1,17 @@
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import { prisma } from "../../common/prisma";
-import { AuthAccountUpdateParam, AuthApi, AuthLoginParam } from "./auth_api";
-import { MailerSend, Sender, Recipient, EmailParams } from "mailersend";
 import dayjs from "dayjs";
+import jwt from "jsonwebtoken";
+import { EmailParams, MailerSend, Recipient, Sender } from "mailersend";
 import { BadRequest, NotFound } from "../../common/error";
+import { prisma } from "../../common/prisma";
+import { Admin } from "./admin";
+import { AuthAccountUpdateParam, AuthApi, AuthLoginParam } from "./auth_api";
 
 export class AuthDefault implements AuthApi {
   async update(param: AuthAccountUpdateParam): Promise<void> {
     const admin = await prisma.admin.findUnique({
       where: {
-        id: param.id,
+        email: param.email,
       },
     });
 
@@ -31,10 +32,9 @@ export class AuthDefault implements AuthApi {
 
     await prisma.admin.update({
       where: {
-        id: param.id,
+        email: param.email,
       },
       data: {
-        email: param.email,
         password: hashedPass,
         updated: dayjs().toDate(),
       },
@@ -42,7 +42,7 @@ export class AuthDefault implements AuthApi {
   }
 
   async login(param: AuthLoginParam): Promise<string | undefined> {
-    const admin = await prisma.admin.findFirst({
+    const admin = await prisma.admin.findUnique({
       where: {
         email: param.email,
       },
@@ -62,22 +62,22 @@ export class AuthDefault implements AuthApi {
     }
   }
 
-  async check(token: string): Promise<boolean> {
+  async check(token: string): Promise<Admin | undefined> {
     const payload = jwt.verify(token, process.env.JWT_KEY!);
 
     if (payload) {
-      const admin = await prisma.admin.findFirst({
+      const admin = await prisma.admin.findUnique({
+        select: {
+          id: true,
+          email: true,
+        },
         where: {
           email: payload.toString(),
         },
       });
 
-      if (admin != null) {
-        return true;
-      }
+      return admin ?? undefined;
     }
-
-    return false;
   }
 
   async emailResetLink(email: string): Promise<void> {

@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { prisma } from "../../common/prisma";
 import { Pdf } from "./pdf";
 import { PdfApi, PdfCreateParam, PdfUpdateParam } from "./pdf_api";
@@ -35,13 +36,16 @@ export class PdfDefault implements PdfApi {
   async update(param: PdfUpdateParam): Promise<void> {
     await prisma.pdf.update({
       where: { id: param.id },
-      data: { ...param, updated: new Date() },
+      data: { ...param, updated: dayjs().toDate(), deleted: null },
     });
   }
 
   async remove(id: string): Promise<void> {
-    await prisma.pdf.delete({
+    await prisma.pdf.update({
       where: { id: id },
+      data: {
+        deleted: dayjs().toDate(),
+      },
     });
   }
 }

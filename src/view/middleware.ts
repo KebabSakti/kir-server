@@ -11,9 +11,11 @@ export async function isAdmin(req: Request, res: Response, next: NextFunction) {
 
       if (payloads.length == 2) {
         const token = payloads[1];
-        const tokenIsValid = await authApi.check(token);
+        const admin = await authApi.check(token);
 
-        if (tokenIsValid) {
+        if (admin != undefined) {
+          res.locals.auth = admin;
+
           return next();
         }
       }

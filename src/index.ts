@@ -7,7 +7,6 @@ import utc from "dayjs/plugin/utc";
 import express from "express";
 import http from "http";
 import multer from "multer";
-import nodemailer from "nodemailer";
 import { staticDir } from "./common/config";
 import authRoute from "./view/auth/auth_route";
 import certificateRoute from "./view/certificate/certificate_route";
@@ -39,28 +38,6 @@ app.use("/certificate", certificateRoute);
 app.use("/admin", isAdmin);
 app.use("/admin/kir", kirRoute);
 app.use("/admin/pdf", pdfRoute);
-
-app.get("/mail", async (req, res) => {
-  const transporter = nodemailer.createTransport({
-    host: "smtp.mailersend.net",
-    port: 587,
-    secure: false, // Use `true` for port 465, `false` for all other ports
-    auth: {
-      user: "MS_plBvcE@trial-jy7zpl9vj5pg5vx6.mlsender.net",
-      pass: "A5OK7Bl73kzlYo79",
-    },
-  });
-
-  await transporter.sendMail({
-    from: "julian.aryo1989@gmail.com", // sender address
-    to: "julian.aryo1989@gmail.com", // list of receivers
-    subject: "Hello ✔", // Subject line
-    text: "Hello world?", // plain text body
-    html: "<b>Hello world?</b>", // html body
-  });
-
-  res.end();
-});
 
 //route not found 404
 app.use("*", (_, res) => res.status(404).json("Route path not found"));
