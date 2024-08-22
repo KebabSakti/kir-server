@@ -8,12 +8,12 @@ export type UploadedFile = {
 };
 
 export async function uploadImage(
-  files: File[],
+  files: Express.Multer.File[],
   format: string = "jpg"
 ): Promise<UploadedFile[]> {
   const uploadedFiles: UploadedFile[] = [];
 
-  for (const file of files as any) {
+  for (const file of files) {
     const { buffer, originalname, fieldname } = file;
     const fileName = `${randomUUID()}-${originalname}`;
     const image = sharp(buffer);

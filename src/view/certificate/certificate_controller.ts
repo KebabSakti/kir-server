@@ -855,3 +855,13 @@ export async function print(req: Request, res: Response) {
     return Failure(error, res);
   }
 }
+
+export async function find(req: Request, res: Response) {
+  try {
+    const data = await kirApi.find(req.params.certificate);
+
+    return res.json(data);
+  } catch (error: any) {
+    return Failure(error, res);
+  }
+}
