@@ -7,12 +7,12 @@ import utc from "dayjs/plugin/utc";
 import express from "express";
 import http from "http";
 import multer from "multer";
-import { staticDir } from "./common/config";
 import authRoute from "./view/auth/auth_route";
 import certificateRoute from "./view/certificate/certificate_route";
 import kirRoute from "./view/kir/kir_route";
 import { isAdmin } from "./view/middleware";
 import pdfRoute from "./view/pdf/pdf_route";
+import path from "path";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -27,7 +27,7 @@ const multerInstance = multer({ storage });
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(staticDir));
+app.use(express.static(path.join(__dirname, `${process.env.DIR!}/upload`)));
 app.use(multerInstance.any());
 
 // PUBLIC API

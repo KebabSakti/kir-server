@@ -87,7 +87,7 @@ export async function certificate(req: Request, res: Response) {
       `${pub}/certificate/${data.certificateNumber}`,
       { errorCorrectionLevel: "H", width: 500 },
       function (_, qr) {
-        const rootDir = "../../asset";
+        const rootDir = process.env.DIR!;
 
         const fonts = {
           interRegular: path.join(
