@@ -22,109 +22,111 @@ export async function print(req: Request, res: Response) {
       `${process.env.PUB!}/certificate/${data.certificateNumber}`,
       { errorCorrectionLevel: "H", width: 500 },
       function (_, qr) {
-        const rootDir = "../../asset";
-
         const fonts = {
           interRegular: path.join(
-            __dirname,
-            `${rootDir}/font`,
+            process.cwd(),
+            `${process.env.DIR!}/font`,
             "Inter_18pt-Regular.ttf"
           ),
           interItalic: path.join(
-            __dirname,
-            `${rootDir}/font`,
+            process.cwd(),
+            `${process.env.DIR!}/font`,
             "Inter_18pt-Italic.ttf"
           ),
           interBold: path.join(
-            __dirname,
-            `${rootDir}/font`,
+            process.cwd(),
+            `${process.env.DIR!}/font`,
             "Inter_18pt-SemiBold.ttf"
           ),
           interBoldItalic: path.join(
-            __dirname,
-            `${rootDir}/font`,
+            process.cwd(),
+            `${process.env.DIR!}/font`,
             "Inter_18pt-SemiBoldItalic.ttf"
           ),
           serifRegular: path.join(
-            __dirname,
-            `${rootDir}/font`,
+            process.cwd(),
+            `${process.env.DIR!}/font`,
             "SourceSerif4_18pt-Regular.ttf"
           ),
           serifItalic: path.join(
-            __dirname,
-            `${rootDir}/font`,
+            process.cwd(),
+            `${process.env.DIR!}/font`,
             "SourceSerif4_18pt-Italic.ttf"
           ),
           serifBold: path.join(
-            __dirname,
-            `${rootDir}/font`,
+            process.cwd(),
+            `${process.env.DIR!}/font`,
             "SourceSerif4_18pt-SemiBold.ttf"
           ),
           serifBoldItalic: path.join(
-            __dirname,
-            `${rootDir}/font`,
+            process.cwd(),
+            `${process.env.DIR!}/font`,
             "SourceSerif4_18pt-SemiBoldItalic.ttf.ttf"
           ),
         };
 
         const frontPic = path.join(
-          __dirname,
-          `${rootDir}/upload`,
+          process.cwd(),
+          `${process.env.DIR!}/upload`,
           data.frontPic!
         );
         const backPic = path.join(
-          __dirname,
-          `${rootDir}/upload`,
+          process.cwd(),
+          `${process.env.DIR!}/upload`,
           data.backPic!
         );
         const rightPic = path.join(
-          __dirname,
-          `${rootDir}/upload`,
+          process.cwd(),
+          `${process.env.DIR!}/upload`,
           data.rightPic!
         );
         const leftPic = path.join(
-          __dirname,
-          `${rootDir}/upload`,
+          process.cwd(),
+          `${process.env.DIR!}/upload`,
           data.leftPic!
         );
 
         const directorStamp = path.join(
-          __dirname,
-          `${rootDir}/upload`,
+          process.cwd(),
+          `${process.env.DIR!}/upload`,
           data.directorStamp!
         );
 
         const directorSignature = path.join(
-          __dirname,
-          `${rootDir}/upload`,
+          process.cwd(),
+          `${process.env.DIR!}/upload`,
           data.directorSignature!
         );
 
         const inspectorStamp = path.join(
-          __dirname,
-          `${rootDir}/upload`,
+          process.cwd(),
+          `${process.env.DIR!}/upload`,
           data.inspectorStamp!
         );
 
         const inspectorSignature = path.join(
-          __dirname,
-          `${rootDir}/upload`,
+          process.cwd(),
+          `${process.env.DIR!}/upload`,
           data.inspectorSignature!
         );
 
         const agencyStamp = path.join(
-          __dirname,
-          `${rootDir}/upload`,
+          process.cwd(),
+          `${process.env.DIR!}/upload`,
           data.agencyStamp!
         );
 
         const agencySignature = path.join(
-          __dirname,
-          `${rootDir}/upload`,
+          process.cwd(),
+          `${process.env.DIR!}/upload`,
           data.agencySignature!
         );
 
-        const logo = path.join(__dirname, `${rootDir}/image`, "logo.png");
+        const logo = path.join(
+          process.cwd(),
+          `${process.env.DIR!}/image`,
+          "logo.png"
+        );
 
         const pdf = new PDFDocument({
           size: "A4",

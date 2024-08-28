@@ -27,7 +27,7 @@ const multerInstance = multer({ storage });
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, `${process.env.DIR!}/upload`)));
+app.use(express.static(path.join(process.cwd(), `${process.env.DIR!}/upload`)));
 app.use(multerInstance.any());
 
 // PUBLIC API

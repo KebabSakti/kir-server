@@ -1,6 +1,6 @@
 import { randomUUID } from "crypto";
 import sharp from "sharp";
-import { staticDir } from "../common/config";
+import path from "path";
 
 export type UploadedFile = {
   fieldName: string;
@@ -26,7 +26,11 @@ export async function uploadImage(
       image.png({ quality: 50 });
     }
 
-    await image.resize(800).toFile(`./${staticDir}/${fileName}`);
+    await image
+      .resize(800)
+      .toFile(
+        path.join(process.cwd(), `${process.env.DIR!}/upload/${fileName}`)
+      );
 
     uploadedFiles.push({
       fieldName: fieldname,
