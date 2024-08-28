@@ -1,11 +1,10 @@
+import dayjs from "dayjs";
 import { Request, Response } from "express";
 import path from "path";
 import PDFDocument from "pdfkit";
 import QRCode from "qrcode";
-import { pub } from "../../common/config";
 import { Failure, NotFound } from "../../common/error";
 import { kirApi } from "../../feature/loader";
-import dayjs from "dayjs";
 
 export async function print(req: Request, res: Response) {
   try {
@@ -20,7 +19,7 @@ export async function print(req: Request, res: Response) {
     });
 
     QRCode.toDataURL(
-      `${pub}/certificate/${data.certificateNumber}`,
+      `${process.env.PUB!}/certificate/${data.certificateNumber}`,
       { errorCorrectionLevel: "H", width: 500 },
       function (_, qr) {
         const rootDir = "../../asset";

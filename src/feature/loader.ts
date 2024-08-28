@@ -1,10 +1,10 @@
 import { AuthApi } from "./auth/auth_api";
-import { AuthDefault } from "./auth/auth_default";
+import { AuthMysql } from "./auth/auth_mysql";
 import { KirApi } from "./kir/kir_api";
-import { KirDefault } from "./kir/kir_default";
+import { KirMysql } from "./kir/kir_mysql";
 import { PdfApi } from "./pdf/pdf_api";
-import { PdfDefault } from "./pdf/pdf_default";
+import { PdfMysql } from "./pdf/pdf_mysql";
 
-export const authApi: AuthApi = new AuthDefault();
-export const kirApi: KirApi = new KirDefault();
-export const pdfApi: PdfApi = new PdfDefault();
+export const authApi: AuthApi = new AuthMysql();
+export const kirApi: KirApi = new KirMysql();
+export const pdfApi: PdfApi = new PdfMysql();
